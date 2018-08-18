@@ -23,7 +23,6 @@ public class Game {
     }
 
 
-
     public boolean isEnableHint() {
         return enableHint;
     }
@@ -41,7 +40,7 @@ public class Game {
     }
 
     private void clearConsole() { for (int i = 0; i < 20; ++i) System.out.println();}
-
+    
     public void showIntro(){
         System.out.println(gameMessenger.getIntroMsg());
         showSettings();
@@ -101,6 +100,7 @@ public class Game {
 
     private void playGame(){
         System.out.println("function playGame()");
+        System.exit(0);
     }
 
     private void changeSettings() {
