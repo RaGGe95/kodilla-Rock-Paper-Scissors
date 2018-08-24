@@ -1,6 +1,7 @@
 package com.kodilla.rockpaperscissors;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.kodilla.rockpaperscissors.game.GameUtilities;
 import com.kodilla.rockpaperscissors.game.Game;
 
 
@@ -9,19 +10,18 @@ public class RockPaperScissorsApplication {
 
     public static void main(String[] args) {
         Game RPSGame = new Game();
-        int decision = 0;
+        int decision;
 
         do {
             RPSGame.showIntro();
-            decision = RPSGame.showMenuAndGetValidDecision();
+            decision = RPSGame.showGameMenuAndGetValidDecision();
             RPSGame.executeMenuDecision(decision);
         } while (decision != 3);
 
 
 
 
-
         //temporary solution
-        RPSGame.closeScanner();
+        GameUtilities.closeScanner();
     }
 }

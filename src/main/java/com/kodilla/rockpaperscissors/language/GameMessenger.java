@@ -1,136 +1,160 @@
 package com.kodilla.rockpaperscissors.language;
 
+/*
+Klasa GameMessenger dostarcza komunikaty dla pozostałych klas.
+Istnieje jeden obiekt typu GameMessenger.
+Wszystkie funkcje są stayczne.
+ */
+
+import static com.kodilla.rockpaperscissors.game.GameSettings.getMaxValueOfPointsRequiredForVictory;
 
 public class GameMessenger {
+
+    public static void setGameMessenger(Language language){
+        gameMessenger = new GameMessenger(language);
+    }
+
+
+
+
+
+    /*
+    PYTANIE
+    jak to się dzieje że ta linijka się wykonuje ? klasa jest przepisem na stworzenie obiektu,
+    a ja tutaj tworze obiekt wewnątrz przepisu na ten obiekt
+
+    Ten obiekt zostaje utworzony przed pierwszym wywołniem metody pokazującej komunikat.
+    czy ten obiekt zostaje utworzony w momencie wywołania którejkolwiek ze statycznych metod poraz pierwszy?
+    */
+    private static GameMessenger gameMessenger = new GameMessenger(GameMessenger.Language.PL);
+
     public enum Language{
         PL,
         ENG
-
     }
 
-    Language language;
+    private static Language language;
 
-    private String introMsg;
+    private static String introMsg;
 
-    private String settingsHints;
-    private String settingsHintsON;
-    private String settingsHintsOFF;
-    private String settingsPointsStatment;
-    private String settingsLanguage;
+    private static String settingsHintsMsg;
+    private static String settingsHintsONMsg;
+    private static String settingsHintsOFFMsg;
+    private static String settingsPointsMsg;
+    private static String settingsLanguageMsg;
 
-    private String menuFirstOption;
-    private String menuSecondOption;
-    private String menuExit;
-    private String menuChoice;
+    private static String menuFirstOptionMsg;
+    private static String menuSecondOptionMsg;
+    private static String menuExitGameMsg;
+    private static String enterChoiceMsg;
 
-    private String getValidIntDecisionStatment;
+    private static String getValidIntDecisionMsg;
 
-    private String changeSettingsCurrentSettings;
-    private String changeSettingsBackToMenu;
-    private String changeSettingsSetPoints;
-
-
+    private static String changeSettingsMsg;
+    private static String changeSettingsBackToMenuMsg;
+    private static String changeSettingsSetPointsMsg;
 
 
-    public GameMessenger(Language language){
+
+    private GameMessenger(Language language){
         this.language = language;
         switch (language) {
             case PL:
                introMsg = "\nWitaj w grze Kamien, Papier, Nozyce. Aby zwyciezyc musisz pokonac komputer wymagana ilosc razy.\nUstawienia:";
 
-               settingsHints = "Podpowiedzi: "; settingsHintsON = "WLACZONE"; settingsHintsOFF = "WYLACZONE";
-               settingsPointsStatment = "Liczba potrzebnych punktow do zwyciestwa: ";
-               settingsLanguage = "Obecnie uzywany jezyk: ";
+               settingsHintsMsg = "(ON/OFF) Podpowiedzi: "; settingsHintsONMsg = "WLACZONE"; settingsHintsOFFMsg = "WYLACZONE";
+               settingsPointsMsg = "(1-" + getMaxValueOfPointsRequiredForVictory() + ") Liczba potrzebnych punktow do zwyciestwa: ";
+               settingsLanguageMsg = "(PL/ENG) Obecnie uzywany jezyk: ";
 
-               menuFirstOption = "GRAJ";
-               menuSecondOption = "ZMIEN USTAWIENIA";
-               menuExit = "ZAKONCZ GRE";
-               menuChoice = "$ Wybor: ";
+               menuFirstOptionMsg = "GRAJ";
+               menuSecondOptionMsg = "ZMIEN USTAWIENIA";
+               menuExitGameMsg = "ZAKONCZ GRE";
+               enterChoiceMsg = "$ Wprowadz wybor: ";
 
-               getValidIntDecisionStatment = "Niepoprawny wybor. Sprobuj ponownie.\n$ Wybor: ";
+               getValidIntDecisionMsg = "Niepoprawny wybor. Sprobuj ponownie.\n$ Wprowadz wybor: ";
 
-               changeSettingsCurrentSettings = "AKTUALNE USTAWIENIA:"; changeSettingsBackToMenu = "Powrot do MENU";
-               changeSettingsSetPoints ="Podaj ilosc punktow potrzebnych do zwyciestwa (zakres 1-99) : ";
+               changeSettingsMsg = "WYBIERZ OPCJE, ABY DOKONAC ZMIAN USTAWIEN:"; changeSettingsBackToMenuMsg = "Powrot do MENU";
+               changeSettingsSetPointsMsg ="Podaj ilosc punktow potrzebnych do zwyciestwa (zakres 1-" + getMaxValueOfPointsRequiredForVictory() + ") : ";
 
                break;
 
            case ENG:
                introMsg = "\nWelcome in game Rock-Paper-Scissors. In order to win you have to defeat computer expected numbers of times.\nSettings:";
 
-               settingsHints = "Hints: "; settingsHintsON = "ENABLE"; settingsHintsOFF = "DISABLE";
-               settingsPointsStatment = "Quantity of points required for victory: ";
-               settingsLanguage = "Current language: ";
+               settingsHintsMsg = "(ON/OFF) Hints: "; settingsHintsONMsg = "ENABLE"; settingsHintsOFFMsg = "DISABLE";
+               settingsPointsMsg = "(1-" + getMaxValueOfPointsRequiredForVictory() + ") Quantity of points required for victory: ";
+               settingsLanguageMsg = "(PL/ENG) Current language: ";
 
-               menuFirstOption = "PLAY";
-               menuSecondOption = "CHANGE SETTINGS";
-               menuExit = "END GAME";
-               menuChoice = "$ Option: ";
+               menuFirstOptionMsg = "PLAY";
+               menuSecondOptionMsg = "CHANGE SETTINGS";
+               menuExitGameMsg = "END GAME";
+               enterChoiceMsg = "$ Enter choice: ";
 
-               getValidIntDecisionStatment = "Invalid option. Try again.\n$ Option: ";
+               getValidIntDecisionMsg = "Invalid option. Try again.\n$ Enter choice: ";
 
-               changeSettingsCurrentSettings = "CURRENT SETTINGS:"; changeSettingsBackToMenu = "Back to MENU";
-               changeSettingsSetPoints ="Enter amount of points required for victory (range 1-99) : ";
+               changeSettingsMsg = "CHOSE OPTION TO CHANGE SETTINGS:"; changeSettingsBackToMenuMsg = "Back to MENU";
+               changeSettingsSetPointsMsg ="Enter amount of points required for victory (range 1-" + getMaxValueOfPointsRequiredForVictory() + ") : ";
                break;
        }
     }
 
-    public Language getLanguage() {
+    public static Language getLanguage() {
         return language;
     }
 
-    public String getIntroMsg() {
+    public static String msgIntro() {
         return introMsg;
     }
 
-    public String getSettingsHints() {
-        return settingsHints;
+    public static String msgSettingsHints() {
+        return settingsHintsMsg;
     }
 
-    public String getSettingsHintsON() {
-        return settingsHintsON;
+    public static String msgSettingsHintsON() {
+        return settingsHintsONMsg;
     }
 
-    public String getSettingsHintsOFF() {
-        return settingsHintsOFF;
+    public static String msgSettingsHintsOFF() {
+        return settingsHintsOFFMsg;
     }
 
-    public String getSettingsPointsStatment() {
-        return settingsPointsStatment;
+    public static String msgSettingsPoints() {
+        return settingsPointsMsg;
     }
 
-    public String getSettingsLanguage() {
-        return settingsLanguage;
+    public static String msgSettingsLanguage() {
+        return settingsLanguageMsg;
     }
 
-    public String getMenuFirstOption() {
-        return menuFirstOption;
+    public static String msgMenuFirstOption() {
+        return menuFirstOptionMsg;
     }
 
-    public String getMenuSecondOption() {
-        return menuSecondOption;
+    public static String msgMenuSecondOption() {
+        return menuSecondOptionMsg;
     }
 
-    public String getMenuExit() {
-        return menuExit;
+    public static String msgExitGame() {
+        return menuExitGameMsg;
     }
 
-    public String getMenuChoice() {
-        return menuChoice;
+    public static String msgEnterChoice() {
+        return enterChoiceMsg;
     }
 
-    public String getGetValidIntDecisionStatment() {
-        return getValidIntDecisionStatment;
+    public static String msgGetValidIntDecision() {
+        return getValidIntDecisionMsg;
     }
 
-    public String getChangeSettingsCurrentSettings() {
-        return changeSettingsCurrentSettings;
+    public static String msgChangeSettings() {
+        return changeSettingsMsg;
     }
 
-    public String getChangeSettingsBackToMenu() {
-        return changeSettingsBackToMenu;
+    public static String msgChangeSettingsBackToMenu() {
+        return changeSettingsBackToMenuMsg;
     }
 
-    public String getChangeSettingsSetPoints() {
-        return changeSettingsSetPoints;
+    public static String msgChangeSettingsSetPoints() {
+        return changeSettingsSetPointsMsg;
     }
 }
