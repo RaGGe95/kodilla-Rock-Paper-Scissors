@@ -9,8 +9,8 @@ public class GameSettings {
     // settings options
     /*
     PYTANIE
-    czy te 4 pola powinny być static?
-    W programie będzie istniał tylko jeden obiekt typu GameSettings.
+    czy te 3 pola powinny być static?
+    W programie będzie istniał tylko jeden obiekt typu GameSettings. (w jaki sposób zabronić tworzenia więcej niż jednego obiektu?)
 
     Czy jedynym sposobem na to aby korzystać z jakiejś funkcji w innej klasie z tego samego pakietu,
     bez konieczności tworzenia obiektu klasy której funkcje chcemy wykorzystać.
@@ -18,39 +18,21 @@ public class GameSettings {
 
     Czy da się utworzyć publiczny obiekt w jednej klasie a później wykozystywać ten obiekt w innych??
      */
-    private boolean isGameWon = false;
+
     private boolean enableHint = true;
     private int pointsRequiredToWin = 3;
     private static final int maxValueOfPointsRequiredForVictory = 9;
 
+
     public GameSettings() {}
 
-    public boolean isEnableHint() {
-        return enableHint;
-    }
-
-    public void setEnableHint(boolean enableHint) {
-        this.enableHint = enableHint;
-    }
-
-    public int getPointsRequiredToWin() {
-        return pointsRequiredToWin;
-    }
-
-    public void setPointsRequiredToWin(int pointsRequiredToWin) {
-        this.pointsRequiredToWin = pointsRequiredToWin;
-    }
-
-    public static int getMaxValueOfPointsRequiredForVictory() {
-        return maxValueOfPointsRequiredForVictory;
-    }
 
     public void showSettings(){
-        System.out.print("1. " + msgSettingsHints());
+        System.out.print("1. " + msgSettingsHint());
         if (enableHint) {
-            System.out.println(msgSettingsHintsON());
+            System.out.println(msgSettingsHintON());
         } else {
-            System.out.println(msgSettingsHintsOFF());
+            System.out.println(msgSettingsHintOFF());
         }
 
         System.out.println("2. " + msgSettingsPoints() + pointsRequiredToWin);
@@ -89,4 +71,29 @@ public class GameSettings {
             clearConsole();
         } while (decision != 4);
     }
+
+
+
+
+    public boolean isEnableHint() {
+        return enableHint;
+    }
+
+    public void setEnableHint(boolean enableHint) {
+        this.enableHint = enableHint;
+    }
+
+    public int getPointsRequiredToWin() {
+        return pointsRequiredToWin;
+    }
+
+    public void setPointsRequiredToWin(int pointsRequiredToWin) {
+        this.pointsRequiredToWin = pointsRequiredToWin;
+    }
+
+    public static int getMaxValueOfPointsRequiredForVictory() {
+        return maxValueOfPointsRequiredForVictory;
+    }
+
+
 }
