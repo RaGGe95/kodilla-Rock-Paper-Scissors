@@ -25,7 +25,7 @@ public class GameUtilities {
     public static int getValidIntDecision(int bottomRange, int topRange){
 
         boolean isDecisionValid = false;
-        int decision = 0;
+        int decision;
         do {
             decision = scanner.nextInt();
 

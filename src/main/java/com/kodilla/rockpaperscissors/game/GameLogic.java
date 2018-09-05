@@ -27,12 +27,6 @@ public class GameLogic {
         return gameMap.get(movePair);
     }
 
-
-
-
-
-
-
     public enum Move {
         ROCK, PAPER, SCISSORS, DEFAULT;
 

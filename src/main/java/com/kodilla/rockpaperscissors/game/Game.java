@@ -1,12 +1,30 @@
 package com.kodilla.rockpaperscissors.game;
 
-import static com.kodilla.rockpaperscissors.game.GameLogic.*;
-import static com.kodilla.rockpaperscissors.game.ComputerMove.*;
-import static com.kodilla.rockpaperscissors.game.PlayerMove.*;
+import com.kodilla.rockpaperscissors.language.GameMessenger;
 
-import static com.kodilla.rockpaperscissors.language.GameMessenger.*;
-import static com.kodilla.rockpaperscissors.game.GameUtilities.*;
-import static com.kodilla.rockpaperscissors.game.ASCIIArt.*;
+import static com.kodilla.rockpaperscissors.game.ASCIIArt.showASCIIArtGoodByeAndCloseScanner;
+import static com.kodilla.rockpaperscissors.game.ASCIIArt.showASCIIArtWinner;
+import static com.kodilla.rockpaperscissors.game.ComputerMove.getComputerMove;
+import static com.kodilla.rockpaperscissors.game.GameLogic.Move;
+import static com.kodilla.rockpaperscissors.game.GameLogic.Result;
+import static com.kodilla.rockpaperscissors.game.GameLogic.getResult;
+import static com.kodilla.rockpaperscissors.game.GameUtilities.askToPlayAgain;
+import static com.kodilla.rockpaperscissors.game.GameUtilities.clearConsole;
+import static com.kodilla.rockpaperscissors.game.GameUtilities.getValidIntDecision;
+import static com.kodilla.rockpaperscissors.game.PlayerMove.showMovesAndGetValidPlayerMove;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.INTRO_MSG;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgExitGame;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgGameResultInfo;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgGameResultInfoComputerCheer;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgGameResultInfoPlayerCheer;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgIntro;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgLastTurnDetails;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgMenuFirstOption;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgMenuSecondOption;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgPlayGameHint;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgShowComputer;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgShowPlayer;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgShowScoresResult;
 
 
 public class Game {
@@ -20,42 +38,45 @@ public class Game {
     private GameLogic.Move playerMove = Move.DEFAULT;
 
 
+    public Game() {
+    }
 
-    public Game() {}
-
-    public void showIntro(){
-        System.out.println(msgIntro());
+    public void showIntro() {
+        GameMessenger.printMessage(INTRO_MSG);
         gameSettings.showSettings();
     }
 
-    public int showGameMenuAndGetValidDecision(){
+    public int showGameMenuAndGetValidDecision() {
+        showIntro();
         System.out.println("\nMENU");
         System.out.println("1. " + msgMenuFirstOption());
         System.out.println("2. " + msgMenuSecondOption());
         System.out.println("3. " + msgExitGame());
-        System.out.print(msgEnterChoice());
-        int decision = getValidIntDecision(1,3 );
-        return decision;
+        System.out.print(GameMessenger.enterChoiceMsg);
+        return getValidIntDecision(1, 3);
     }
 
-    public void executeMenuDecision(int decision){
-        clearConsole();
-        switch (decision) {
-            case 1: gameLoop();
-            break;
-            case 2: gameSettings.changeSettings();
-            break;
-            case 3:
-                showASCIIArtGoodByeAndCloseScanner();
-                System.exit(0);
-            break;
+    public void play() {
+        while (true) {
+            int decision = showGameMenuAndGetValidDecision();
+            clearConsole();
+            switch (decision) {
+                case 1:
+                    gameLoop();
+                    break;
+                case 2:
+                    gameSettings.changeSettings();
+                    break;
+                case 3:
+                    showASCIIArtGoodByeAndCloseScanner();
+                    System.exit(0);
+                    break;
+            }
         }
     }
 
 
-
-
-    private void gameLoop(){
+    private void gameLoop() {
 
         do {
             GameLogic.Result winner = playGame();
@@ -66,10 +87,6 @@ public class Game {
 
     private GameLogic.Result playGame() {
         do {
-            showScores();
-            if (turnResult != Result.DEFAULT){
-                showLastTurnDetails();
-            }
 
             computerMove = getComputerMove();
             if (gameSettings.isEnableHint()) {
@@ -90,21 +107,24 @@ public class Game {
                     break;
             }
             clearConsole();
-        } while ( ! isGameWon());
+            showScores();
+            if (turnResult != Result.DEFAULT) {
+                showLastTurnDetails();
+            }
+        } while (!isGameWon());
 
-        if (playerScore == gameSettings.getPointsRequiredToWin()){
+        if (playerScore > computerScore) {
             return Result.PLAYER;
-        }
-        else {
+        } else {
             return Result.COMPUTER;
         }
     }
 
-    private void showScores(){
+    private void showScores() {
         System.out.println(msgShowScoresResult() + msgShowPlayer() + playerScore + ":" + computerScore + msgShowComputer());
     }
 
-    private void showLastTurnDetails(){
+    private void showLastTurnDetails() {
         System.out.println(msgLastTurnDetails() + msgShowPlayer() + playerMove + ":" + computerMove + msgShowComputer());
     }
 
@@ -112,7 +132,7 @@ public class Game {
         return playerScore == gameSettings.getPointsRequiredToWin() || computerScore == gameSettings.getPointsRequiredToWin();
     }
 
-    private void showGameResultInformationAndResetScore(GameLogic.Result winner){
+    private void showGameResultInformationAndResetScore(GameLogic.Result winner) {
         showLastTurnDetails();
         switch (winner) {
             case PLAYER:
@@ -120,17 +140,17 @@ public class Game {
                 System.out.print(msgGameResultInfo());
                 showScores();
 
-            break;
+                break;
             case COMPUTER:
                 System.out.println(msgGameResultInfoComputerCheer());
                 System.out.print(msgGameResultInfo());
                 showScores();
-            break;
+                break;
         }
         resetScores();
     }
 
-    private void resetScores(){
+    private void resetScores() {
         turnResult = Result.DEFAULT;
         playerScore = 0;
         computerScore = 0;

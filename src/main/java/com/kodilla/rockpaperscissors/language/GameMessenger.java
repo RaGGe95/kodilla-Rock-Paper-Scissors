@@ -6,18 +6,38 @@ Istnieje jeden obiekt typu GameMessenger.
 Wszystkie funkcje są stayczne.
  */
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.kodilla.rockpaperscissors.game.GameSettings.getMaxValueOfPointsRequiredForVictory;
 
 public class GameMessenger {
 
-    public enum Language{
+    public enum Language {
         PL,
         ENG
     }
 
     private static Language language;
 
-    private static String introMsg;
+    private static final Map<String, String> LANGUAGE_MAP = new HashMap<>();
+    public static final String INTRO_MSG = "introMsg";
+
+
+    public static final void changeLanguage() {
+        if (language == Language.ENG) {
+            LANGUAGE_MAP.put(INTRO_MSG, "\nWitaj w grze Kamien, Papier, Nozyce. Aby zwyciezyc musisz pokonac komputer wymagana ilosc razy.\nUstawienia:");
+        }
+    }
+
+    public static void printMessage(String key) {
+        System.out.println(LANGUAGE_MAP.get(key));
+    }
+
+    public static void printMessageWithPrefix(String prefix, String key) {
+        System.out.println(prefix + " " + LANGUAGE_MAP.get(key));
+    }
+
 
     private static String settingsHintMsg;
     private static String settingsHintONMsg;
@@ -28,7 +48,7 @@ public class GameMessenger {
     private static String menuFirstOptionMsg;
     private static String menuSecondOptionMsg;
     private static String menuExitGameMsg;
-    private static String enterChoiceMsg;
+    public static String enterChoiceMsg;
 
     private static String getValidDecisionMsg;
 
@@ -56,87 +76,91 @@ public class GameMessenger {
     private static String gameResultInfoMsg;
 
 
-    private GameMessenger(Language language){
+    private GameMessenger(Language language) {
         this.language = language;
         switch (language) {
             case PL:
-               introMsg = "\nWitaj w grze Kamien, Papier, Nozyce. Aby zwyciezyc musisz pokonac komputer wymagana ilosc razy.\nUstawienia:";
+                introMsg = "\nWitaj w grze Kamien, Papier, Nozyce. Aby zwyciezyc musisz pokonac komputer wymagana ilosc razy.\nUstawienia:";
 
-               settingsHintMsg = "(ON/OFF) Podpowiedzi: "; settingsHintONMsg = "WLACZONE"; settingsHintOFFMsg = "WYLACZONE";
-               settingsPointsMsg = "(1-" + getMaxValueOfPointsRequiredForVictory() + ") Liczba potrzebnych punktow do zwyciestwa: ";
-               settingsLanguageMsg = "(PL/ENG) Obecnie uzywany jezyk: ";
+                settingsHintMsg = "(ON/OFF) Podpowiedzi: ";
+                settingsHintONMsg = "WLACZONE";
+                settingsHintOFFMsg = "WYLACZONE";
+                settingsPointsMsg = "(1-" + getMaxValueOfPointsRequiredForVictory() + ") Liczba potrzebnych punktow do zwyciestwa: ";
+                settingsLanguageMsg = "(PL/ENG) Obecnie uzywany jezyk: ";
 
-               menuFirstOptionMsg = "GRAJ";
-               menuSecondOptionMsg = "ZMIEN USTAWIENIA";
-               menuExitGameMsg = "ZAKONCZ GRE";
-               enterChoiceMsg = "$ Wprowadz wybor: ";
+                menuFirstOptionMsg = "GRAJ";
+                menuSecondOptionMsg = "ZMIEN USTAWIENIA";
+                menuExitGameMsg = "ZAKONCZ GRE";
+                enterChoiceMsg = "$ Wprowadz wybor: ";
 
-               getValidDecisionMsg = "Niepoprawny wybor. Sprobuj ponownie.\n$ Wprowadz wybor: ";
+                getValidDecisionMsg = "Niepoprawny wybor. Sprobuj ponownie.\n$ Wprowadz wybor: ";
 
-               changeSettingsMsg = "WYBIERZ OPCJE, ABY DOKONAC ZMIAN USTAWIEN:"; changeSettingsBackToMenuMsg = "Powrot do MENU";
-               changeSettingsSetPointsMsg ="Podaj ilosc punktow potrzebnych do zwyciestwa (zakres 1-" + getMaxValueOfPointsRequiredForVictory() + ") : ";
+                changeSettingsMsg = "WYBIERZ OPCJE, ABY DOKONAC ZMIAN USTAWIEN:";
+                changeSettingsBackToMenuMsg = "Powrot do MENU";
+                changeSettingsSetPointsMsg = "Podaj ilosc punktow potrzebnych do zwyciestwa (zakres 1-" + getMaxValueOfPointsRequiredForVictory() + ") : ";
 
-               showScoresResultMsg = "Wynik: ";
-               showPlayerMsg = "(GRACZ) ";
-               showComputerMsg = " (KOMPUTER)";
+                showScoresResultMsg = "Wynik: ";
+                showPlayerMsg = "(GRACZ) ";
+                showComputerMsg = " (KOMPUTER)";
 
-               yourTurnMsg = "TWOJ RUCH: ";
-               rockMsg = "KAMIEN";
-               paperMsg = "PAPIER";
-               scissorsMsg = "NOZYCZKI";
+                yourTurnMsg = "TWOJ RUCH: ";
+                rockMsg = "KAMIEN";
+                paperMsg = "PAPIER";
+                scissorsMsg = "NOZYCZKI";
 
-               playGameHintMsg = "*PODPOWIEDZ* Komputer wybral: ";
+                playGameHintMsg = "*PODPOWIEDZ* Komputer wybral: ";
 
-               lastTurnDetailsMsg = "Rezultat poprzednij rundy: ";
+                lastTurnDetailsMsg = "Rezultat poprzednij rundy: ";
 
-               askToPlayAgainMsg = "Czy chcesz zagrac ponownie? Wpisz: (Y/y) - Zagraj ponownie, lub (N/n) - Powrot do MENU";
+                askToPlayAgainMsg = "Czy chcesz zagrac ponownie? Wpisz: (Y/y) - Zagraj ponownie, lub (N/n) - Powrot do MENU";
 
-               gameResultInfoPlayerCheerMsg = "BRAWO ZWYCIEZYLES!!!";
-               gameResultInfoComputerCheerMsg = "PONIOSLES PORAZKE...";
-               gameResultInfoMsg = "Gra zakonczona, ";
+                gameResultInfoPlayerCheerMsg = "BRAWO ZWYCIEZYLES!!!";
+                gameResultInfoComputerCheerMsg = "PONIOSLES PORAZKE...";
+                gameResultInfoMsg = "Gra zakonczona, ";
 
-               break;
+                break;
 
-           case ENG:
-               introMsg = "\nWelcome in game Rock-Paper-Scissors. In order to win you have to defeat computer expected numbers of times.\nSettings:";
+            case ENG:
+                introMsg = "\nWelcome in game Rock-Paper-Scissors. In order to win you have to defeat computer expected numbers of times.\nSettings:";
 
-               settingsHintMsg = "(ON/OFF) Hints: "; settingsHintONMsg = "ENABLE"; settingsHintOFFMsg = "DISABLE";
-               settingsPointsMsg = "(1-" + getMaxValueOfPointsRequiredForVictory() + ") Quantity of points required for victory: ";
-               settingsLanguageMsg = "(PL/ENG) Current language: ";
+                settingsHintMsg = "(ON/OFF) Hints: ";
+                settingsHintONMsg = "ENABLE";
+                settingsHintOFFMsg = "DISABLE";
+                settingsPointsMsg = "(1-" + getMaxValueOfPointsRequiredForVictory() + ") Quantity of points required for victory: ";
+                settingsLanguageMsg = "(PL/ENG) Current language: ";
 
-               menuFirstOptionMsg = "PLAY";
-               menuSecondOptionMsg = "CHANGE SETTINGS";
-               menuExitGameMsg = "END GAME";
-               enterChoiceMsg = "$ Enter choice: ";
+                menuFirstOptionMsg = "PLAY";
+                menuSecondOptionMsg = "CHANGE SETTINGS";
+                menuExitGameMsg = "END GAME";
+                enterChoiceMsg = "$ Enter choice: ";
 
-               getValidDecisionMsg = "Invalid option. Try again.\n$ Enter choice: ";
+                getValidDecisionMsg = "Invalid option. Try again.\n$ Enter choice: ";
 
-               changeSettingsMsg = "CHOOSE OPTION TO CHANGE SETTINGS:"; changeSettingsBackToMenuMsg = "Back to MENU";
-               changeSettingsSetPointsMsg ="Enter amount of points required for victory (range 1-" + getMaxValueOfPointsRequiredForVictory() + ") : ";
+                changeSettingsMsg = "CHOOSE OPTION TO CHANGE SETTINGS:";
+                changeSettingsBackToMenuMsg = "Back to MENU";
+                changeSettingsSetPointsMsg = "Enter amount of points required for victory (range 1-" + getMaxValueOfPointsRequiredForVictory() + ") : ";
 
-               showScoresResultMsg = "Scores: ";
-               showPlayerMsg = "(PLAYER) ";
-               showComputerMsg = " (COMPUTER)";
+                showScoresResultMsg = "Scores: ";
+                showPlayerMsg = "(PLAYER) ";
+                showComputerMsg = " (COMPUTER)";
 
-               yourTurnMsg = "YOUR TURN: ";
-               rockMsg = "ROCK";
-               paperMsg = "PAPER";
-               scissorsMsg = "SCISSORS";
+                yourTurnMsg = "YOUR TURN: ";
+                rockMsg = "ROCK";
+                paperMsg = "PAPER";
+                scissorsMsg = "SCISSORS";
 
-               playGameHintMsg = "*HINT* Computer chose: ";
+                playGameHintMsg = "*HINT* Computer chose: ";
 
-               lastTurnDetailsMsg = "Last turn result: ";
+                lastTurnDetailsMsg = "Last turn result: ";
 
-               askToPlayAgainMsg = "Do you want to play again? Enter: (Y/y) - Play Again, or (N/n) - Back to MENU";
+                askToPlayAgainMsg = "Do you want to play again? Enter: (Y/y) - Play Again, or (N/n) - Back to MENU";
 
-               gameResultInfoPlayerCheerMsg = "EXCELLENT, YOU HAVE WON!!!";
-               gameResultInfoComputerCheerMsg = "YOU HAVE BEEN DEFEATED...";
-               gameResultInfoMsg = "Game ended, ";
-               break;
-       }
+                gameResultInfoPlayerCheerMsg = "EXCELLENT, YOU HAVE WON!!!";
+                gameResultInfoComputerCheerMsg = "YOU HAVE BEEN DEFEATED...";
+                gameResultInfoMsg = "Game ended, ";
+                break;
+        }
     }
-
-
 
 
     /*
@@ -148,124 +172,8 @@ Ten obiekt zostaje utworzony przed pierwszym wywołniem metody pokazującej komu
 */
     private static GameMessenger gameMessenger = new GameMessenger(GameMessenger.Language.PL);
 
-    public static void setGameMessenger(Language language){
+    public static void setGameMessenger(Language language) {
         gameMessenger = new GameMessenger(language);
     }
 
-
-
-
-
-
-    public static Language getLanguage() {
-        return language;
-    }
-
-    public static String msgIntro() {
-        return introMsg;
-    }
-
-    public static String msgSettingsHint() {
-        return settingsHintMsg;
-    }
-
-    public static String msgSettingsHintON() {
-        return settingsHintONMsg;
-    }
-
-    public static String msgSettingsHintOFF() {
-        return settingsHintOFFMsg;
-    }
-
-    public static String msgSettingsPoints() {
-        return settingsPointsMsg;
-    }
-
-    public static String msgSettingsLanguage() {
-        return settingsLanguageMsg;
-    }
-
-    public static String msgMenuFirstOption() {
-        return menuFirstOptionMsg;
-    }
-
-    public static String msgMenuSecondOption() {
-        return menuSecondOptionMsg;
-    }
-
-    public static String msgExitGame() {
-        return menuExitGameMsg;
-    }
-
-    public static String msgEnterChoice() {
-        return enterChoiceMsg;
-    }
-
-    public static String msgGetValidDecision() {
-        return getValidDecisionMsg;
-    }
-
-    public static String msgChangeSettings() {
-        return changeSettingsMsg;
-    }
-
-    public static String msgChangeSettingsBackToMenu() {
-        return changeSettingsBackToMenuMsg;
-    }
-
-    public static String msgChangeSettingsSetPoints() {
-        return changeSettingsSetPointsMsg;
-    }
-
-    public static String msgRock() {
-        return rockMsg;
-    }
-
-    public static String msgPaper() {
-        return paperMsg;
-    }
-
-    public static String msgScissors() {
-        return scissorsMsg;
-    }
-
-    public static String msgPlayGameHint() {
-        return playGameHintMsg;
-    }
-
-    public static String msgYourTurn() {
-        return yourTurnMsg;
-    }
-
-    public static String msgShowScoresResult() {
-        return showScoresResultMsg;
-    }
-
-    public static String msgShowPlayer() {
-        return showPlayerMsg;
-    }
-
-    public static String msgShowComputer() {
-        return showComputerMsg;
-    }
-
-    public static String msgLastTurnDetails() {
-        return lastTurnDetailsMsg;
-    }
-
-    public static String msgAskToPlayAgain() {
-        return askToPlayAgainMsg;
-    }
-
-    public static String msgGameResultInfoPlayerCheer() {
-        return gameResultInfoPlayerCheerMsg;
-    }
-
-    public static String msgGameResultInfoComputerCheer() {
-        return gameResultInfoComputerCheerMsg;
-    }
-
-    public static String msgGameResultInfo() {
-        return gameResultInfoMsg;
-    }
 }

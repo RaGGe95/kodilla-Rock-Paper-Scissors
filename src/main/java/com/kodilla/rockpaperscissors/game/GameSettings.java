@@ -1,8 +1,22 @@
 package com.kodilla.rockpaperscissors.game;
 
 
-import static com.kodilla.rockpaperscissors.game.GameUtilities.*;
-import static com.kodilla.rockpaperscissors.language.GameMessenger.*;
+import com.kodilla.rockpaperscissors.language.GameMessenger;
+
+import static com.kodilla.rockpaperscissors.game.GameUtilities.clearConsole;
+import static com.kodilla.rockpaperscissors.game.GameUtilities.getValidIntDecision;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.Language;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.getLanguage;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgChangeSettings;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgChangeSettingsBackToMenu;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgChangeSettingsSetPoints;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgEnterChoice;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgSettingsHint;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgSettingsHintOFF;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgSettingsHintON;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgSettingsLanguage;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.msgSettingsPoints;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.setGameMessenger;
 
 public class GameSettings {
 
@@ -24,10 +38,15 @@ public class GameSettings {
     private static final int maxValueOfPointsRequiredForVictory = 9;
 
 
-    public GameSettings() {}
+    public GameSettings() {
+    }
 
 
-    public void showSettings(){
+    public void showSettings() {
+        GameMessenger.printMessageWithPrefix("1.", GameMessenger.INTRO_MSG);
+        GameMessenger.printMessageWithPrefix("2.", GameMessenger.INTRO_MSG);
+        GameMessenger.printMessageWithPrefix("3.", GameMessenger.INTRO_MSG);
+        GameMessenger.printMessageWithPrefix("4.", GameMessenger.INTRO_MSG);
         System.out.print("1. " + msgSettingsHint());
         if (enableHint) {
             System.out.println(msgSettingsHintON());
@@ -52,18 +71,14 @@ public class GameSettings {
 
             switch (decision) {
                 case 1: // hints option
-                    setEnableHint(!enableHint);
+                    toggleHint();
                     break;
                 case 2: // points required for win option
                     System.out.println(msgChangeSettingsSetPoints());
                     setPointsRequiredToWin(getValidIntDecision(1, maxValueOfPointsRequiredForVictory));
                     break;
                 case 3: // language option
-                    if(getLanguage() == Language.PL){
-                        setGameMessenger(Language.ENG);
-                    } else {
-                        setGameMessenger(Language.PL);
-                    }
+                    GameMessenger.changeLanguage();
                     break;
                 case 4: // back to menu
                     break;
@@ -72,15 +87,12 @@ public class GameSettings {
         } while (decision != 4);
     }
 
-
-
-
     public boolean isEnableHint() {
         return enableHint;
     }
 
-    public void setEnableHint(boolean enableHint) {
-        this.enableHint = enableHint;
+    public void toggleHint() {
+        this.enableHint = !enableHint;
     }
 
     public int getPointsRequiredToWin() {
