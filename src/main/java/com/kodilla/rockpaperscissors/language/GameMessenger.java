@@ -1,271 +1,184 @@
 package com.kodilla.rockpaperscissors.language;
 
-/*
-Klasa GameMessenger dostarcza komunikaty dla pozostałych klas.
-Istnieje jeden obiekt typu GameMessenger.
-Wszystkie funkcje są stayczne.
- */
 
-import static com.kodilla.rockpaperscissors.game.GameSettings.getMaxValueOfPointsRequiredForVictory;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.kodilla.rockpaperscissors.game.GameSettings.*;
 
 public class GameMessenger {
+    private static final Map<String, String> PL_LANGUAGE_MAP = new HashMap<>();
+    private static final Map<String, String> ENG_LANGUAGE_MAP = new HashMap<>();
+    private static Map<String, String> LANGUAGE_MAP = new HashMap<>();
+    private static Language gameLanguage = Language.ENG;
+
+    private GameMessenger() {}
 
     public enum Language{
         PL,
         ENG
     }
 
-    private static Language language;
+    static {
+        setGameLanguage(gameLanguage);
+    }
 
-    private static String introMsg;
+    public static void printMessage(String key) {
+        System.out.print(LANGUAGE_MAP.get(key));
+    }
+    public static void printlnMessage(String key) {
+        System.out.println(LANGUAGE_MAP.get(key));
+    }
 
-    private static String settingsHintMsg;
-    private static String settingsHintONMsg;
-    private static String settingsHintOFFMsg;
-    private static String settingsPointsMsg;
-    private static String settingsLanguageMsg;
+    public static void printMessageWithPrefix(String prefix, String key) {
+        System.out.print(prefix + " " + LANGUAGE_MAP.get(key));
+    }
 
-    private static String menuFirstOptionMsg;
-    private static String menuSecondOptionMsg;
-    private static String menuExitGameMsg;
-    private static String enterChoiceMsg;
+    public static void printlnMessageWithPrefix(String prefix, String key) {
+        System.out.println(prefix + " " + LANGUAGE_MAP.get(key));
+    }
 
-    private static String getValidDecisionMsg;
+    public static void setGameLanguage(Language lang){
+        switch (lang) {
+            case ENG:
+                LANGUAGE_MAP = ENG_LANGUAGE_MAP;
+                break;
 
-    private static String changeSettingsMsg;
-    private static String changeSettingsBackToMenuMsg;
-    private static String changeSettingsSetPointsMsg;
-
-    private static String showScoresResultMsg;
-    private static String showPlayerMsg;
-    private static String showComputerMsg;
-
-    private static String yourTurnMsg;
-    private static String rockMsg;
-    private static String paperMsg;
-    private static String scissorsMsg;
-
-    private static String playGameHintMsg;
-
-    private static String lastTurnDetailsMsg;
-
-    private static String askToPlayAgainMsg;
-
-    private static String gameResultInfoPlayerCheerMsg;
-    private static String gameResultInfoComputerCheerMsg;
-    private static String gameResultInfoMsg;
-
-
-    private GameMessenger(Language language){
-        this.language = language;
-        switch (language) {
             case PL:
-               introMsg = "\nWitaj w grze Kamien, Papier, Nozyce. Aby zwyciezyc musisz pokonac komputer wymagana ilosc razy.\nUstawienia:";
+                LANGUAGE_MAP = PL_LANGUAGE_MAP;
+                break;
+        }
+        gameLanguage = lang;
+    }
 
-               settingsHintMsg = "(ON/OFF) Podpowiedzi: "; settingsHintONMsg = "WLACZONE"; settingsHintOFFMsg = "WYLACZONE";
-               settingsPointsMsg = "(1-" + getMaxValueOfPointsRequiredForVictory() + ") Liczba potrzebnych punktow do zwyciestwa: ";
-               settingsLanguageMsg = "(PL/ENG) Obecnie uzywany jezyk: ";
-
-               menuFirstOptionMsg = "GRAJ";
-               menuSecondOptionMsg = "ZMIEN USTAWIENIA";
-               menuExitGameMsg = "ZAKONCZ GRE";
-               enterChoiceMsg = "$ Wprowadz wybor: ";
-
-               getValidDecisionMsg = "Niepoprawny wybor. Sprobuj ponownie.\n$ Wprowadz wybor: ";
-
-               changeSettingsMsg = "WYBIERZ OPCJE, ABY DOKONAC ZMIAN USTAWIEN:"; changeSettingsBackToMenuMsg = "Powrot do MENU";
-               changeSettingsSetPointsMsg ="Podaj ilosc punktow potrzebnych do zwyciestwa (zakres 1-" + getMaxValueOfPointsRequiredForVictory() + ") : ";
-
-               showScoresResultMsg = "Wynik: ";
-               showPlayerMsg = "(GRACZ) ";
-               showComputerMsg = " (KOMPUTER)";
-
-               yourTurnMsg = "TWOJ RUCH: ";
-               rockMsg = "KAMIEN";
-               paperMsg = "PAPIER";
-               scissorsMsg = "NOZYCZKI";
-
-               playGameHintMsg = "*PODPOWIEDZ* Komputer wybral: ";
-
-               lastTurnDetailsMsg = "Rezultat poprzednij rundy: ";
-
-               askToPlayAgainMsg = "Czy chcesz zagrac ponownie? Wpisz: (Y/y) - Zagraj ponownie, lub (N/n) - Powrot do MENU";
-
-               gameResultInfoPlayerCheerMsg = "BRAWO ZWYCIEZYLES!!!";
-               gameResultInfoComputerCheerMsg = "PONIOSLES PORAZKE...";
-               gameResultInfoMsg = "Gra zakonczona, ";
-
-               break;
-
-           case ENG:
-               introMsg = "\nWelcome in game Rock-Paper-Scissors. In order to win you have to defeat computer expected numbers of times.\nSettings:";
-
-               settingsHintMsg = "(ON/OFF) Hints: "; settingsHintONMsg = "ENABLE"; settingsHintOFFMsg = "DISABLE";
-               settingsPointsMsg = "(1-" + getMaxValueOfPointsRequiredForVictory() + ") Quantity of points required for victory: ";
-               settingsLanguageMsg = "(PL/ENG) Current language: ";
-
-               menuFirstOptionMsg = "PLAY";
-               menuSecondOptionMsg = "CHANGE SETTINGS";
-               menuExitGameMsg = "END GAME";
-               enterChoiceMsg = "$ Enter choice: ";
-
-               getValidDecisionMsg = "Invalid option. Try again.\n$ Enter choice: ";
-
-               changeSettingsMsg = "CHOOSE OPTION TO CHANGE SETTINGS:"; changeSettingsBackToMenuMsg = "Back to MENU";
-               changeSettingsSetPointsMsg ="Enter amount of points required for victory (range 1-" + getMaxValueOfPointsRequiredForVictory() + ") : ";
-
-               showScoresResultMsg = "Scores: ";
-               showPlayerMsg = "(PLAYER) ";
-               showComputerMsg = " (COMPUTER)";
-
-               yourTurnMsg = "YOUR TURN: ";
-               rockMsg = "ROCK";
-               paperMsg = "PAPER";
-               scissorsMsg = "SCISSORS";
-
-               playGameHintMsg = "*HINT* Computer chose: ";
-
-               lastTurnDetailsMsg = "Last turn result: ";
-
-               askToPlayAgainMsg = "Do you want to play again? Enter: (Y/y) - Play Again, or (N/n) - Back to MENU";
-
-               gameResultInfoPlayerCheerMsg = "EXCELLENT, YOU HAVE WON!!!";
-               gameResultInfoComputerCheerMsg = "YOU HAVE BEEN DEFEATED...";
-               gameResultInfoMsg = "Game ended, ";
-               break;
-       }
+    public static Language getGameLanguage(){
+        return gameLanguage;
     }
 
 
 
 
-    /*
-PYTANIE
-jak to się dzieje że 149 linijka się wykonuje ? klasa jest przepisem na stworzenie obiektu,
-a ja tutaj tworze obiekt wewnątrz przepisu na ten obiekt
+    public final static String INTRO_MSG = "INTRO_MSG";
 
-Ten obiekt zostaje utworzony przed pierwszym wywołniem metody pokazującej komunikat?
-*/
-    private static GameMessenger gameMessenger = new GameMessenger(GameMessenger.Language.PL);
+    public final static String SETTINGS_HINT_MSG = "SETTINGS_HINT_MSG";
+    public final static String SETTINGS_HINT_ON_MSG = "SETTINGS_HINT_ON_MSG";
+    public final static String SETTINGS_HINT_OFF_MSG = "SETTINGS_HINT_OFF_MSG";
+    public final static String SETTINGS_POINTS_MSG = "SETTINGS_POINTS_MSG";
+    public final static String SETTINGS_LANGUAGE_MSG = "SETTINGS_LANGUAGE_MSG";
 
-    public static void setGameMessenger(Language language){
-        gameMessenger = new GameMessenger(language);
+    public final static String MENU_MSG = "MENU_MSG";
+    public final static String MENU_FIRST_OPTION_MSG = "MENU_FIRST_OPTION_MSG";
+    public final static String MENU_SECOND_OPTION_MSG = "MENU_SECOND_OPTION_MSG";
+    public final static String MENU_EXIT_GAME_MSG = "MENU_EXIT_GAME_MSG";
+    public final static String ENTER_CHOICE_MSG = "ENTER_CHOICE_MSG";
+
+    public final static String WRONG_DECISION_MSG = "WRONG_DECISION_MSG";
+
+    public final static String CHANGE_SETTINGS_MSG = "CHANGE_SETTINGS_MSG";
+    public final static String CHANGE_SETTINGS_BACK_TO_MENU_MSG = "CHANGE_SETTINGS_BACK_TO_MENU_MSG";
+    public final static String CHANGE_SETTINGS_SET_POINTS_MSG = "CHANGE_SETTINGS_SET_POINTS_MSG";
+
+    public final static String SHOW_SCORES_RESULT_MSG = "SHOW_SCORES_RESULT_MSG";
+    public final static String SHOW_PLAYER_MSG = "SHOW_PLAYER_MSG";
+    public final static String SHOW_COMPUTER_MSG = "SHOW_COMPUTER_MSG";
+
+    public final static String YOUR_TURN_MSG = "YOUR_TURN_MSG";
+    public final static String ROCK_MSG = "ROCK_MSG";
+    public final static String PAPER_MSG = "PAPER_MSG";
+    public final static String SCISSORS_MSG = "SCISSORS_MSG";
+
+    public final static String PLAY_GAME_HINT_MSG = "PLAY_GAME_HINT_MSG";
+
+    public final static String LAST_TURN_DETAILS_MSG = "LAST_TURN_DETAILS_MSG";
+
+    public final static String ASK_TO_PLAY_AGAIN_MSG = "ASK_TO_PLAY_AGAIN_MSG";
+
+    public final static String GAME_RESULT_INFO_PLAYER_CHEER_MSG = "GAME_RESULT_INFO_PLAYER_CHEER_MSG";
+    public final static String GAME_RESULT_INFO_COMPUTER_CHEER_MSG = "GAME_RESULT_INFO_COMPUTER_CHEER_MSG";
+    public final static String GAME_RESULT_INFO_MSG = "GAME_RESULT_INFO_MSG";
+
+    static {
+        PL_LANGUAGE_MAP.put(INTRO_MSG, "Witaj w grze Kamień, Papier, Nożyce. Aby zwycieżyć musisz pokonać komputer wymaganą ilość razy.\nUstawienia:");
+        PL_LANGUAGE_MAP.put(SETTINGS_HINT_MSG, "(ON/OFF) Podpowiedzi: ");
+
+        PL_LANGUAGE_MAP.put(SETTINGS_HINT_ON_MSG, "WŁĄCZONE");
+        PL_LANGUAGE_MAP.put(SETTINGS_HINT_OFF_MSG, "WYŁĄCZONE");
+        PL_LANGUAGE_MAP.put(SETTINGS_POINTS_MSG, "(" + getMinValueOfPointsRequiredForVictory() + "-" + getMaxValueOfPointsRequiredForVictory()
+                + ") Liczba potrzebnych punktów do zwycięstwa: ");
+        PL_LANGUAGE_MAP.put(SETTINGS_LANGUAGE_MSG, "Komunikaty dostępne w językach: (PL/ENG)");
+
+        PL_LANGUAGE_MAP.put(MENU_MSG, "MENU");
+        PL_LANGUAGE_MAP.put(MENU_FIRST_OPTION_MSG, "GRAJ");
+        PL_LANGUAGE_MAP.put(MENU_SECOND_OPTION_MSG, "ZMIEN USTAWIENIA");
+        PL_LANGUAGE_MAP.put(MENU_EXIT_GAME_MSG, "ZAKOŃCZ GRE");
+
+        PL_LANGUAGE_MAP.put(ENTER_CHOICE_MSG, "$ Wprowadź wybór: ");
+
+        PL_LANGUAGE_MAP.put(WRONG_DECISION_MSG, "Niepoprawny wybór. Sprobuj ponownie.");
+
+        PL_LANGUAGE_MAP.put(CHANGE_SETTINGS_MSG, "WYBIERZ OPCJE, ABY DOKONAĆ ZMIANY USTAWIEŃ:");
+        PL_LANGUAGE_MAP.put(CHANGE_SETTINGS_BACK_TO_MENU_MSG, "Powrót do menu");
+        PL_LANGUAGE_MAP.put(CHANGE_SETTINGS_SET_POINTS_MSG, "Podaj ilość punktów potrzebnych do zwycięstwa (zakres "
+                + getMinValueOfPointsRequiredForVictory() + "-" + getMaxValueOfPointsRequiredForVictory() + ")");
+
+        PL_LANGUAGE_MAP.put(SHOW_SCORES_RESULT_MSG, "Wynik: ");
+        PL_LANGUAGE_MAP.put(SHOW_PLAYER_MSG, "(GRACZ) ");
+        PL_LANGUAGE_MAP.put(SHOW_COMPUTER_MSG, " (KOMPUTER)");
+
+        PL_LANGUAGE_MAP.put(YOUR_TURN_MSG, "Twój ruch: ");
+        PL_LANGUAGE_MAP.put(ROCK_MSG, "KAMIEŃ");
+        PL_LANGUAGE_MAP.put(PAPER_MSG, "PAPIER");
+        PL_LANGUAGE_MAP.put(SCISSORS_MSG, "NOŻYCE");
+
+        PL_LANGUAGE_MAP.put(PLAY_GAME_HINT_MSG, "*PODPOWIEDŹ* Komputer wybrał: ");
+        PL_LANGUAGE_MAP.put(LAST_TURN_DETAILS_MSG, "Rezultat poprzednij rundy: ");
+        PL_LANGUAGE_MAP.put(ASK_TO_PLAY_AGAIN_MSG, "Czy chcesz zagrać ponownie? Wprowadź: (Y/y) - aby Zagrać ponownie, lub (N/n) - aby wrócić do menu");
+
+        PL_LANGUAGE_MAP.put(GAME_RESULT_INFO_PLAYER_CHEER_MSG, "GRATULACJĘ, ZWYCIĘŻYŁEŚ!!!");
+        PL_LANGUAGE_MAP.put(GAME_RESULT_INFO_COMPUTER_CHEER_MSG, "PONIOSŁEŚ PORAŻKE...");
+        PL_LANGUAGE_MAP.put(GAME_RESULT_INFO_MSG, "Gra zakończona, ");
     }
 
+    static {
+        ENG_LANGUAGE_MAP.put(INTRO_MSG, "Welcome in game Rock-Paper-Scissors. In order to win you have to defeat computer expected numbers of times.\nSettings:");
+        ENG_LANGUAGE_MAP.put(SETTINGS_HINT_MSG, "(ON/OFF) Hints: ");
 
+        ENG_LANGUAGE_MAP.put(SETTINGS_HINT_ON_MSG, "ENABLE");
+        ENG_LANGUAGE_MAP.put(SETTINGS_HINT_OFF_MSG, "DISABLE");
+        ENG_LANGUAGE_MAP.put(SETTINGS_POINTS_MSG, "(" + getMinValueOfPointsRequiredForVictory() + "-" + getMaxValueOfPointsRequiredForVictory()
+                + ") Quantity of points required for victory: ");
+        ENG_LANGUAGE_MAP.put(SETTINGS_LANGUAGE_MSG, "Messages enable in languages: (PL/ENG)");
 
+        ENG_LANGUAGE_MAP.put(MENU_MSG, "MENU");
+        ENG_LANGUAGE_MAP.put(MENU_FIRST_OPTION_MSG, "PLAY");
+        ENG_LANGUAGE_MAP.put(MENU_SECOND_OPTION_MSG, "CHANGE SETTINGS");
+        ENG_LANGUAGE_MAP.put(MENU_EXIT_GAME_MSG, "END GAME");
 
+        ENG_LANGUAGE_MAP.put(ENTER_CHOICE_MSG, "$ Enter choice: ");
 
+        ENG_LANGUAGE_MAP.put(WRONG_DECISION_MSG, "Invalid option. Try again.");
 
-    public static Language getLanguage() {
-        return language;
+        ENG_LANGUAGE_MAP.put(CHANGE_SETTINGS_MSG, "CHOOSE OPTION TO CHANGE SETTINGS:");
+        ENG_LANGUAGE_MAP.put(CHANGE_SETTINGS_BACK_TO_MENU_MSG, "Back to menu");
+        ENG_LANGUAGE_MAP.put(CHANGE_SETTINGS_SET_POINTS_MSG, "Enter amount of points required for victory (range "
+                + getMinValueOfPointsRequiredForVictory() + "-" + getMaxValueOfPointsRequiredForVictory() + ")");
+
+        ENG_LANGUAGE_MAP.put(SHOW_SCORES_RESULT_MSG, "Scores: ");
+        ENG_LANGUAGE_MAP.put(SHOW_PLAYER_MSG, "(PLAYER) ");
+        ENG_LANGUAGE_MAP.put(SHOW_COMPUTER_MSG, " (COMPUTER)");
+
+        ENG_LANGUAGE_MAP.put(YOUR_TURN_MSG, "Your turn: ");
+        ENG_LANGUAGE_MAP.put(ROCK_MSG, "ROCK");
+        ENG_LANGUAGE_MAP.put(PAPER_MSG, "PAPER");
+        ENG_LANGUAGE_MAP.put(SCISSORS_MSG, "SCISSORS");
+
+        ENG_LANGUAGE_MAP.put(PLAY_GAME_HINT_MSG, "*HINT* Computer chose: ");
+        ENG_LANGUAGE_MAP.put(LAST_TURN_DETAILS_MSG, "Last turn result: " );
+        ENG_LANGUAGE_MAP.put(ASK_TO_PLAY_AGAIN_MSG, "Do you want to play again? Enter: (Y/y) - Play again, or (N/n) - Back to menu");
+
+        ENG_LANGUAGE_MAP.put(GAME_RESULT_INFO_PLAYER_CHEER_MSG, "CONGRATULATION, YOU HAVE WON!!!");
+        ENG_LANGUAGE_MAP.put(GAME_RESULT_INFO_COMPUTER_CHEER_MSG, "YOU HAVE BEEN DEFEATED...");
+        ENG_LANGUAGE_MAP.put(GAME_RESULT_INFO_MSG, "Game finished, ");
     }
 
-    public static String msgIntro() {
-        return introMsg;
-    }
-
-    public static String msgSettingsHint() {
-        return settingsHintMsg;
-    }
-
-    public static String msgSettingsHintON() {
-        return settingsHintONMsg;
-    }
-
-    public static String msgSettingsHintOFF() {
-        return settingsHintOFFMsg;
-    }
-
-    public static String msgSettingsPoints() {
-        return settingsPointsMsg;
-    }
-
-    public static String msgSettingsLanguage() {
-        return settingsLanguageMsg;
-    }
-
-    public static String msgMenuFirstOption() {
-        return menuFirstOptionMsg;
-    }
-
-    public static String msgMenuSecondOption() {
-        return menuSecondOptionMsg;
-    }
-
-    public static String msgExitGame() {
-        return menuExitGameMsg;
-    }
-
-    public static String msgEnterChoice() {
-        return enterChoiceMsg;
-    }
-
-    public static String msgGetValidDecision() {
-        return getValidDecisionMsg;
-    }
-
-    public static String msgChangeSettings() {
-        return changeSettingsMsg;
-    }
-
-    public static String msgChangeSettingsBackToMenu() {
-        return changeSettingsBackToMenuMsg;
-    }
-
-    public static String msgChangeSettingsSetPoints() {
-        return changeSettingsSetPointsMsg;
-    }
-
-    public static String msgRock() {
-        return rockMsg;
-    }
-
-    public static String msgPaper() {
-        return paperMsg;
-    }
-
-    public static String msgScissors() {
-        return scissorsMsg;
-    }
-
-    public static String msgPlayGameHint() {
-        return playGameHintMsg;
-    }
-
-    public static String msgYourTurn() {
-        return yourTurnMsg;
-    }
-
-    public static String msgShowScoresResult() {
-        return showScoresResultMsg;
-    }
-
-    public static String msgShowPlayer() {
-        return showPlayerMsg;
-    }
-
-    public static String msgShowComputer() {
-        return showComputerMsg;
-    }
-
-    public static String msgLastTurnDetails() {
-        return lastTurnDetailsMsg;
-    }
-
-    public static String msgAskToPlayAgain() {
-        return askToPlayAgainMsg;
-    }
-
-    public static String msgGameResultInfoPlayerCheer() {
-        return gameResultInfoPlayerCheerMsg;
-    }
-
-    public static String msgGameResultInfoComputerCheer() {
-        return gameResultInfoComputerCheerMsg;
-    }
-
-    public static String msgGameResultInfo() {
-        return gameResultInfoMsg;
-    }
 }

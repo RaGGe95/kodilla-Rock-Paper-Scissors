@@ -5,20 +5,19 @@ import static com.kodilla.rockpaperscissors.game.GameUtilities.closeScanner;
 public class ASCIIArt {
     private ASCIIArt() {}
 
-    public static void showASCIIArtWinner(GameLogic.Result winner) {
+    public static void printASCIIArt(GameLogic.Result winner) {
         switch (winner) {
             case COMPUTER:
-                showSkull();
+                printSkull();
                 break;
 
             case PLAYER:
-                showHappyFace();
+                printHappyFace();
                 break;
         }
-
     }
 
-    public static void showASCIIArtGoodByeAndCloseScanner(){
+    public static void printASCIIArtGoodByeAndCloseScanner(){
         System.out.println("   _____  ____   ____  _____  ______     ________   _");
         System.out.println("  / ____|/ __ \\ / __ \\|  __ \\|  _ \\ \\   / /  ____| | |");
         System.out.println(" | |  __| |  | | |  | | |  | | |_) \\ \\_/ /| |__    | |");
@@ -29,7 +28,7 @@ public class ASCIIArt {
         closeScanner();
     }
 
-    private static void showSkull(){
+    private static void printSkull(){
         System.out.println("                                 .-\"\"\"\"\"-.");
         System.out.println("                                /          \\ ");
         System.out.println("                       .-.     |   _   _   |      .-.");
@@ -41,7 +40,7 @@ public class ASCIIArt {
         System.out.println("                      (,_.'`                    `'._,)");
     }
 
-    private static void showHappyFace(){
+    private static void printHappyFace(){
         System.out.println("             OOOOOOOOOOO");
         System.out.println("         OOOOOOOOOOOOOOOOOOO");
         System.out.println("      OOOOOO  OOOOOOOOO  OOOOOO");

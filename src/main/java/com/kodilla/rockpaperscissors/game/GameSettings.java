@@ -1,98 +1,99 @@
 package com.kodilla.rockpaperscissors.game;
 
 
+import com.kodilla.rockpaperscissors.game.enumMenuOptions.SettingsDecision;
+
 import static com.kodilla.rockpaperscissors.game.GameUtilities.*;
 import static com.kodilla.rockpaperscissors.language.GameMessenger.*;
 
 public class GameSettings {
+    private static boolean enableHint = true;
+    private static int pointsRequiredToWin = 3;
+    private static final int MAX_VALUE_OF_POINTS_REQUIRED_FOR_VICTORY = 9;
+    private static final int MIN_VALUE_OF_POINTS_REQUIRED_FOR_VICTORY = 1;
 
-    // settings options
-    /*
-    PYTANIE
-    czy te 3 pola powinny być static?
-    W programie będzie istniał tylko jeden obiekt typu GameSettings. (w jaki sposób zabronić tworzenia więcej niż jednego obiektu?)
-
-    Czy jedynym sposobem na to aby korzystać z jakiejś funkcji w innej klasie z tego samego pakietu,
-    bez konieczności tworzenia obiektu klasy której funkcje chcemy wykorzystać.
-    jest zadeklarowanie tej funkcji jako static????
-
-    Czy da się utworzyć publiczny obiekt w jednej klasie a później wykozystywać ten obiekt w innych??
-     */
-
-    private boolean enableHint = true;
-    private int pointsRequiredToWin = 3;
-    private static final int maxValueOfPointsRequiredForVictory = 9;
+    private GameSettings() {}
 
 
-    public GameSettings() {}
-
-
-    public void showSettings(){
-        System.out.print("1. " + msgSettingsHint());
+    public static void printSettings(){
+        printMessageWithPrefix("1.",SETTINGS_HINT_MSG);
         if (enableHint) {
-            System.out.println(msgSettingsHintON());
+            printlnMessage(SETTINGS_HINT_ON_MSG);
         } else {
-            System.out.println(msgSettingsHintOFF());
+            printlnMessage(SETTINGS_HINT_OFF_MSG);
         }
-
-        System.out.println("2. " + msgSettingsPoints() + pointsRequiredToWin);
-        System.out.println("3. " + msgSettingsLanguage() + getLanguage());
+        printMessageWithPrefix("2.", SETTINGS_POINTS_MSG); System.out.println(getPointsRequiredToWin());
+        printlnMessageWithPrefix("3.", SETTINGS_LANGUAGE_MSG);
     }
 
 
-    public void changeSettings() {
-        int decision;
+    public static void changeSettings() {
         do {
-            System.out.println(msgChangeSettings());
-            showSettings();
-            System.out.println("4. " + msgChangeSettingsBackToMenu());
-            System.out.print(msgEnterChoice());
+            final SettingsDecision settingsDecision = SettingsDecision.of(getValidIntDecision(1, 4));
 
-            decision = getValidIntDecision(1, 4);
-
-            switch (decision) {
-                case 1: // hints option
-                    setEnableHint(!enableHint);
+            switch (settingsDecision) {
+                case HINTS:
+                    toggleHint();
                     break;
-                case 2: // points required for win option
-                    System.out.println(msgChangeSettingsSetPoints());
-                    setPointsRequiredToWin(getValidIntDecision(1, maxValueOfPointsRequiredForVictory));
+                case POINTS_REQUIRED_TO_WIN:
+                    printlnMessage(CHANGE_SETTINGS_SET_POINTS_MSG);
+                    printMessage(ENTER_CHOICE_MSG);
+                    setPointsRequiredToWin(getValidIntDecision(MIN_VALUE_OF_POINTS_REQUIRED_FOR_VICTORY, MAX_VALUE_OF_POINTS_REQUIRED_FOR_VICTORY));
                     break;
-                case 3: // language option
-                    if(getLanguage() == Language.PL){
-                        setGameMessenger(Language.ENG);
-                    } else {
-                        setGameMessenger(Language.PL);
-                    }
+                case LANGUAGE:
+                    changeLanguage();
                     break;
-                case 4: // back to menu
-                    break;
+                case BACK_TO_MENU:
+                    clearConsole();
+                    return;
             }
             clearConsole();
-        } while (decision != 4);
+            printChangeSettingsMenu();
+        } while (true);
+    }
+
+    public static void printChangeSettingsMenu() {
+        printlnMessage(CHANGE_SETTINGS_MSG);
+        printSettings();
+        printlnMessageWithPrefix("4.", CHANGE_SETTINGS_BACK_TO_MENU_MSG);
+        printMessage(ENTER_CHOICE_MSG);
+    }
+
+    private static void toggleHint() {
+        enableHint = !enableHint;
+    }
+
+    private static void changeLanguage() {
+        switch (getGameLanguage()) {
+            case PL:
+                setGameLanguage(Language.ENG);
+                break;
+            case ENG:
+                setGameLanguage(Language.PL);
+                break;
+        }
     }
 
 
-
-
-    public boolean isEnableHint() {
+    public static boolean isEnableHint() {
         return enableHint;
     }
 
-    public void setEnableHint(boolean enableHint) {
-        this.enableHint = enableHint;
-    }
 
-    public int getPointsRequiredToWin() {
+    public static int getPointsRequiredToWin() {
         return pointsRequiredToWin;
     }
 
-    public void setPointsRequiredToWin(int pointsRequiredToWin) {
-        this.pointsRequiredToWin = pointsRequiredToWin;
+    public static void setPointsRequiredToWin(int points) {
+        pointsRequiredToWin = points;
     }
 
     public static int getMaxValueOfPointsRequiredForVictory() {
-        return maxValueOfPointsRequiredForVictory;
+        return MAX_VALUE_OF_POINTS_REQUIRED_FOR_VICTORY;
+    }
+
+    public static int getMinValueOfPointsRequiredForVictory() {
+        return MIN_VALUE_OF_POINTS_REQUIRED_FOR_VICTORY;
     }
 
 

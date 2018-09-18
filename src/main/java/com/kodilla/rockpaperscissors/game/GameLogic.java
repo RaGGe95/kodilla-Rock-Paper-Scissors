@@ -7,19 +7,21 @@ import static com.kodilla.rockpaperscissors.language.GameMessenger.*;
 
 public class GameLogic {
     private static final Map<MovePair, Result> gameMap = new HashMap<>();
+
     private GameLogic() {}
+
     static {
-        gameMap.put( new MovePair(Move.ROCK,Move.ROCK), Result.TIE );
-        gameMap.put( new MovePair(Move.ROCK,Move.SCISSORS), Result.PLAYER );
-        gameMap.put( new MovePair(Move.ROCK,Move.PAPER), Result.COMPUTER );
+        gameMap.put(new MovePair(Move.ROCK, Move.ROCK), Result.TIE);
+        gameMap.put(new MovePair(Move.ROCK, Move.SCISSORS), Result.PLAYER);
+        gameMap.put(new MovePair(Move.ROCK, Move.PAPER), Result.COMPUTER);
 
-        gameMap.put( new MovePair(Move.SCISSORS,Move.SCISSORS), Result.TIE );
-        gameMap.put( new MovePair(Move.SCISSORS,Move.PAPER), Result.PLAYER );
-        gameMap.put( new MovePair(Move.SCISSORS,Move.ROCK), Result.COMPUTER );
+        gameMap.put(new MovePair(Move.SCISSORS, Move.SCISSORS), Result.TIE);
+        gameMap.put(new MovePair(Move.SCISSORS, Move.PAPER), Result.PLAYER);
+        gameMap.put(new MovePair(Move.SCISSORS, Move.ROCK), Result.COMPUTER);
 
-        gameMap.put( new MovePair(Move.PAPER,Move.PAPER), Result.TIE );
-        gameMap.put( new MovePair(Move.PAPER,Move.ROCK), Result.PLAYER );
-        gameMap.put( new MovePair(Move.PAPER,Move.SCISSORS), Result.COMPUTER );
+        gameMap.put(new MovePair(Move.PAPER, Move.PAPER), Result.TIE);
+        gameMap.put(new MovePair(Move.PAPER, Move.ROCK), Result.PLAYER);
+        gameMap.put(new MovePair(Move.PAPER, Move.SCISSORS), Result.COMPUTER);
     }
 
 
@@ -28,68 +30,68 @@ public class GameLogic {
     }
 
 
-
-
-
-
-
     public enum Move {
         ROCK, PAPER, SCISSORS, DEFAULT;
 
-        @Override
-        public String toString() {
-            switch (this){
+        public void printMove() {
+            switch (this) {
                 case ROCK:
-                    return msgRock();
+                    printMessage(ROCK_MSG);
+                    break;
                 case PAPER:
-                    return msgPaper();
+                    printMessage(PAPER_MSG);
+                    break;
                 case SCISSORS:
-                    return msgScissors();
+                    printMessage(SCISSORS_MSG);
+                    break;
             }
-            return "";
+        }
+
+        public void printlnMove() {
+            switch (this) {
+                case ROCK:
+                    printlnMessage(ROCK_MSG);
+                    break;
+                case PAPER:
+                    printlnMessage(PAPER_MSG);
+                    break;
+                case SCISSORS:
+                    printlnMessage(SCISSORS_MSG);
+                    break;
+            }
         }
     }
 
     public enum Result {
         TIE, PLAYER, COMPUTER, DEFAULT;
+    }
 
-        @Override
-        public String toString() {
-            switch (this){
-                case PLAYER:
-                    return msgShowPlayer();
-                case COMPUTER:
-                    return msgShowComputer();
+        public static class MovePair {
+            private final Move playerMove;
+            private final Move computerMove;
+
+            public MovePair(Move playerMove, Move computerMove) {
+                this.playerMove = playerMove;
+                this.computerMove = computerMove;
             }
-            return "";
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+
+                MovePair movePair = (MovePair) o;
+
+                if (computerMove != movePair.computerMove) return false;
+                return playerMove == movePair.playerMove;
+            }
+
+            @Override
+            public int hashCode() {
+                int result = computerMove.hashCode();
+                result = 31 * result + playerMove.hashCode();
+                return result;
+            }
         }
-    }
-
-    public static class MovePair {
-        private final Move playerMove;
-        private final Move computerMove;
-
-        public MovePair(Move playerMove, Move computerMove) {
-            this.playerMove = playerMove;
-            this.computerMove = computerMove;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            MovePair movePair = (MovePair) o;
-
-            if (computerMove != movePair.computerMove) return false;
-            return playerMove == movePair.playerMove;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = computerMove.hashCode();
-            result = 31 * result + playerMove.hashCode();
-            return result;
-        }
-    }
 }
+

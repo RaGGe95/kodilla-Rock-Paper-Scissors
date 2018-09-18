@@ -6,18 +6,8 @@ import com.kodilla.rockpaperscissors.game.Game;
 
 @SpringBootApplication
 public class RockPaperScissorsApplication {
-
     public static void main(String[] args) {
-        Game RPSGame = new Game();
-        int decision;
-
-
-        do {
-            RPSGame.showIntro();
-            decision = RPSGame.showGameMenuAndGetValidDecision();
-            RPSGame.executeMenuDecision(decision);
-        } while (decision != 3);
-
-
+        Game rpsGame = Game.getInstance();
+        rpsGame.run();
     }
 }

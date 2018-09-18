@@ -1,140 +1,164 @@
 package com.kodilla.rockpaperscissors.game;
 
+import com.kodilla.rockpaperscissors.game.enumMenuOptions.GameMenuDecision;
+
 import static com.kodilla.rockpaperscissors.game.GameLogic.*;
 import static com.kodilla.rockpaperscissors.game.ComputerMove.*;
 import static com.kodilla.rockpaperscissors.game.PlayerMove.*;
-
-import static com.kodilla.rockpaperscissors.language.GameMessenger.*;
 import static com.kodilla.rockpaperscissors.game.GameUtilities.*;
 import static com.kodilla.rockpaperscissors.game.ASCIIArt.*;
+import static com.kodilla.rockpaperscissors.game.GameSettings.*;
+
+import static com.kodilla.rockpaperscissors.language.GameMessenger.*;
 
 
 public class Game {
-    private GameSettings gameSettings = new GameSettings();
+    private static Game game = null;
 
-    private static int playerScore = 0;
-    private static int computerScore = 0;
+    private int playerScore;
+    private int computerScore;
 
-    private GameLogic.Result turnResult = Result.DEFAULT;
-    private GameLogic.Move computerMove = Move.DEFAULT;
-    private GameLogic.Move playerMove = Move.DEFAULT;
+    private GameLogic.Result turnWinner;
+    private GameLogic.Move computerMove;
+    private GameLogic.Move playerMove;
 
-
-
-    public Game() {}
-
-    public void showIntro(){
-        System.out.println(msgIntro());
-        gameSettings.showSettings();
+    private Game() {
+        resetScores();
     }
 
-    public int showGameMenuAndGetValidDecision(){
-        System.out.println("\nMENU");
-        System.out.println("1. " + msgMenuFirstOption());
-        System.out.println("2. " + msgMenuSecondOption());
-        System.out.println("3. " + msgExitGame());
-        System.out.print(msgEnterChoice());
-        int decision = getValidIntDecision(1,3 );
-        return decision;
+    public static Game getInstance() {
+        if (game == null) {
+            synchronized (Game.class) {
+                if (game == null) {
+                    game = new Game();
+                }
+            }
+        }
+        return game;
     }
 
-    public void executeMenuDecision(int decision){
-        clearConsole();
-        switch (decision) {
-            case 1: gameLoop();
-            break;
-            case 2: gameSettings.changeSettings();
-            break;
-            case 3:
-                showASCIIArtGoodByeAndCloseScanner();
-                System.exit(0);
-            break;
+
+    public void run() {
+        while(true) {
+            printlnMessage(INTRO_MSG);
+            printSettings();
+            printGameMenu();
+            executeGameMenuDecision();
         }
     }
 
 
+    private void printGameMenu(){
+        printlnMessage(MENU_MSG);
+        printlnMessageWithPrefix("1.", MENU_FIRST_OPTION_MSG);
+        printlnMessageWithPrefix("2.", MENU_SECOND_OPTION_MSG);
+        printlnMessageWithPrefix("3.", MENU_EXIT_GAME_MSG);
+        printMessage(ENTER_CHOICE_MSG);
+    }
+
+    private void executeGameMenuDecision(){
+        final GameMenuDecision gameMenuDecision = GameMenuDecision.of(getValidIntDecision(1, 3));
+        switch (gameMenuDecision) {
+            case PLAY:
+                clearConsole();
+                gameLoop();
+                break;
+            case CHANGE_SETTINGS:
+                clearConsole();
+                printChangeSettingsMenu();
+                changeSettings();
+                break;
+            case EXIT:
+                printASCIIArtGoodByeAndCloseScanner();
+                System.exit(0);
+                break;
+        }
+    }
 
 
     private void gameLoop(){
-
         do {
             GameLogic.Result winner = playGame();
-            showASCIIArtWinner(winner);
-            showGameResultInformationAndResetScore(winner);
+            printASCIIArt(winner);
+            printCongratulationForWinner(winner);
+            resetScores();
         } while (askToPlayAgain());
     }
 
+
     private GameLogic.Result playGame() {
         do {
-            showScores();
-            if (turnResult != Result.DEFAULT){
-                showLastTurnDetails();
-            }
-
             computerMove = getComputerMove();
-            if (gameSettings.isEnableHint()) {
-                System.out.println(msgPlayGameHint() + computerMove.toString());
+            if (isEnableHint()) {
+                printMessage(PLAY_GAME_HINT_MSG);
+                computerMove.printlnMove();
             }
-            playerMove = showMovesAndGetValidPlayerMove();
-
-            turnResult = getResult(new GameLogic.MovePair(playerMove, computerMove));
-
-            switch (turnResult) {
-                case PLAYER:
-                    playerScore++;
-                    break;
-                case COMPUTER:
-                    computerScore++;
-                    break;
-                case TIE:
-                    break;
-            }
+            printPlayerMoves();
+            playerMove = getValidPlayerMove();
+            turnWinner = getResult(new GameLogic.MovePair(playerMove, computerMove));
+            givePointForTurnWinner();
             clearConsole();
+            showScores();
+            showLastTurnDetails();
         } while ( ! isGameWon());
 
-        if (playerScore == gameSettings.getPointsRequiredToWin()){
+        if (playerScore > computerScore) {
             return Result.PLAYER;
-        }
-        else {
+        } else {
             return Result.COMPUTER;
         }
     }
 
+    private void givePointForTurnWinner() {
+        switch (turnWinner) {
+            case PLAYER:
+                playerScore++;
+                break;
+            case COMPUTER:
+                computerScore++;
+                break;
+            case TIE:
+                break;
+        }
+    }
+
     private void showScores(){
-        System.out.println(msgShowScoresResult() + msgShowPlayer() + playerScore + ":" + computerScore + msgShowComputer());
+        printMessage(SHOW_SCORES_RESULT_MSG);
+        printMessage(SHOW_PLAYER_MSG);
+        System.out.print(playerScore + ":" + computerScore);
+        printlnMessage(SHOW_COMPUTER_MSG);
     }
 
     private void showLastTurnDetails(){
-        System.out.println(msgLastTurnDetails() + msgShowPlayer() + playerMove + ":" + computerMove + msgShowComputer());
+        printMessage(LAST_TURN_DETAILS_MSG);
+        printMessage(SHOW_PLAYER_MSG);
+        playerMove.printMove();
+        System.out.print(':');
+        computerMove.printMove();
+        printlnMessage(SHOW_COMPUTER_MSG);
     }
 
     private boolean isGameWon() {
-        return playerScore == gameSettings.getPointsRequiredToWin() || computerScore == gameSettings.getPointsRequiredToWin();
+        return playerScore == getPointsRequiredToWin() || computerScore == getPointsRequiredToWin();
     }
 
-    private void showGameResultInformationAndResetScore(GameLogic.Result winner){
-        showLastTurnDetails();
+    private void printCongratulationForWinner(GameLogic.Result winner){
         switch (winner) {
             case PLAYER:
-                System.out.println(msgGameResultInfoPlayerCheer());
-                System.out.print(msgGameResultInfo());
-                showScores();
-
+                printlnMessage(GAME_RESULT_INFO_PLAYER_CHEER_MSG);
             break;
             case COMPUTER:
-                System.out.println(msgGameResultInfoComputerCheer());
-                System.out.print(msgGameResultInfo());
-                showScores();
+                printlnMessage(GAME_RESULT_INFO_COMPUTER_CHEER_MSG);
             break;
         }
-        resetScores();
     }
 
     private void resetScores(){
-        turnResult = Result.DEFAULT;
         playerScore = 0;
         computerScore = 0;
+
+        turnWinner = Result.DEFAULT;
+        computerMove = Move.DEFAULT;
+        playerMove = Move.DEFAULT;
     }
-
-
 }

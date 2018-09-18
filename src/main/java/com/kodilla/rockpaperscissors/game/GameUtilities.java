@@ -1,25 +1,15 @@
 package com.kodilla.rockpaperscissors.game;
 
-/*
-Klasa GameUtilities dostarcza funkcje użytkowe dla klasy GameSettings or głównej klasy Game.
-nie można tworzyć obiektów typu GameUtilities
- */
-
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import static com.kodilla.rockpaperscissors.language.GameMessenger.msgAskToPlayAgain;
-import static com.kodilla.rockpaperscissors.language.GameMessenger.msgEnterChoice;
-import static com.kodilla.rockpaperscissors.language.GameMessenger.msgGetValidDecision;
+import static com.kodilla.rockpaperscissors.language.GameMessenger.*;
 
 
 public class GameUtilities {
-    /*
-    PYTANIE
-    kiedy linijka 19 w tym progamie się wykona?
-     */
+
     private static final Scanner scanner = new Scanner(System.in);
     private GameUtilities() {}
-
 
 
     public static int getValidIntDecision(int bottomRange, int topRange){
@@ -27,12 +17,16 @@ public class GameUtilities {
         boolean isDecisionValid = false;
         int decision = 0;
         do {
-            decision = scanner.nextInt();
+            try {
+                decision = Integer.valueOf(scanner.nextLine());
+            } catch (NumberFormatException e){
+            }
 
             if (decision >= bottomRange && decision <= topRange) {
                 isDecisionValid = true;
             } else {
-                System.out.print(msgGetValidDecision());
+                printlnMessage(WRONG_DECISION_MSG);
+                printMessage(ENTER_CHOICE_MSG);
             }
 
         } while ( ! isDecisionValid);
@@ -40,13 +34,13 @@ public class GameUtilities {
         return decision;
     }
 
+
     public static boolean askToPlayAgain() {
         boolean isDecisionValid = false;
         String decision;
-        scanner.nextLine(); // zjadam pozostawiony znak \n przez metode nextInt()
 
-        System.out.println(msgAskToPlayAgain());
-        System.out.println(msgEnterChoice());
+        printlnMessage(ASK_TO_PLAY_AGAIN_MSG);
+        printMessage(ENTER_CHOICE_MSG);
         do {
             decision = scanner.nextLine();
             decision = decision.toLowerCase();
@@ -54,24 +48,23 @@ public class GameUtilities {
             if (decision.equals("y") || decision.equals("n")) {
                 isDecisionValid = true;
             } else {
-                System.out.print(msgGetValidDecision());
+                printlnMessage(WRONG_DECISION_MSG);
+                printMessage(ENTER_CHOICE_MSG);
             }
 
         } while( ! isDecisionValid);
 
         clearConsole();
         if (decision.equals("y")){
-
             return true;
         } else {
             return false;
         }
     }
 
-    public static void clearConsole() { for (int i = 0; i < 20; ++i) System.out.println();}
+    public static void clearConsole() { for (int i = 0; i < 50; ++i) System.out.println();}
 
 
-    //temporary solution
     public static void closeScanner() {
         scanner.close();
     }
