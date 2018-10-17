@@ -95,10 +95,9 @@ public class GameMessenger {
 
     public final static String GAME_RESULT_INFO_PLAYER_CHEER_MSG = "GAME_RESULT_INFO_PLAYER_CHEER_MSG";
     public final static String GAME_RESULT_INFO_COMPUTER_CHEER_MSG = "GAME_RESULT_INFO_COMPUTER_CHEER_MSG";
-    public final static String GAME_RESULT_INFO_MSG = "GAME_RESULT_INFO_MSG";
 
     static {
-        PL_LANGUAGE_MAP.put(INTRO_MSG, "Witaj w grze Kamień, Papier, Nożyce. Aby zwycieżyć musisz pokonać komputer wymaganą ilość razy.\nUstawienia:");
+        PL_LANGUAGE_MAP.put(INTRO_MSG, "Witaj w grze Kamień, Papier, Nożyce. Aby zwycieżyć musisz pokonać komputer wymaganą ilość razy.");
         PL_LANGUAGE_MAP.put(SETTINGS_HINT_MSG, "(ON/OFF) Podpowiedzi: ");
 
         PL_LANGUAGE_MAP.put(SETTINGS_HINT_ON_MSG, "WŁĄCZONE");
@@ -136,11 +135,10 @@ public class GameMessenger {
 
         PL_LANGUAGE_MAP.put(GAME_RESULT_INFO_PLAYER_CHEER_MSG, "GRATULACJĘ, ZWYCIĘŻYŁEŚ!!!");
         PL_LANGUAGE_MAP.put(GAME_RESULT_INFO_COMPUTER_CHEER_MSG, "PONIOSŁEŚ PORAŻKE...");
-        PL_LANGUAGE_MAP.put(GAME_RESULT_INFO_MSG, "Gra zakończona, ");
     }
 
     static {
-        ENG_LANGUAGE_MAP.put(INTRO_MSG, "Welcome in game Rock-Paper-Scissors. In order to win you have to defeat computer expected numbers of times.\nSettings:");
+        ENG_LANGUAGE_MAP.put(INTRO_MSG, "Welcome in game Rock-Paper-Scissors. In order to win you have to defeat computer expected numbers of times.");
         ENG_LANGUAGE_MAP.put(SETTINGS_HINT_MSG, "(ON/OFF) Hints: ");
 
         ENG_LANGUAGE_MAP.put(SETTINGS_HINT_ON_MSG, "ENABLE");
@@ -178,7 +176,6 @@ public class GameMessenger {
 
         ENG_LANGUAGE_MAP.put(GAME_RESULT_INFO_PLAYER_CHEER_MSG, "CONGRATULATION, YOU HAVE WON!!!");
         ENG_LANGUAGE_MAP.put(GAME_RESULT_INFO_COMPUTER_CHEER_MSG, "YOU HAVE BEEN DEFEATED...");
-        ENG_LANGUAGE_MAP.put(GAME_RESULT_INFO_MSG, "Game finished, ");
     }
 
 }

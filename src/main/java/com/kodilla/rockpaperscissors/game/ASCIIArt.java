@@ -2,10 +2,10 @@ package com.kodilla.rockpaperscissors.game;
 
 import static com.kodilla.rockpaperscissors.game.GameUtilities.closeScanner;
 
-public class ASCIIArt {
+class ASCIIArt {
     private ASCIIArt() {}
 
-    public static void printASCIIArt(GameLogic.Result winner) {
+    static void printASCIIArt(GameLogic.Result winner) {
         switch (winner) {
             case COMPUTER:
                 printSkull();
@@ -17,7 +17,7 @@ public class ASCIIArt {
         }
     }
 
-    public static void printASCIIArtGoodByeAndCloseScanner(){
+    static void printASCIIArtGoodByeAndCloseScanner(){
         System.out.println("   _____  ____   ____  _____  ______     ________   _");
         System.out.println("  / ____|/ __ \\ / __ \\|  __ \\|  _ \\ \\   / /  ____| | |");
         System.out.println(" | |  __| |  | | |  | | |  | | |_) \\ \\_/ /| |__    | |");

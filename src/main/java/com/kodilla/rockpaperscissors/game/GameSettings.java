@@ -15,7 +15,7 @@ public class GameSettings {
     private GameSettings() {}
 
 
-    public static void printSettings(){
+    static void printSettings(){
         printMessageWithPrefix("1.",SETTINGS_HINT_MSG);
         if (enableHint) {
             printlnMessage(SETTINGS_HINT_ON_MSG);
@@ -27,7 +27,7 @@ public class GameSettings {
     }
 
 
-    public static void changeSettings() {
+    static void changeSettings() {
         do {
             final SettingsDecision settingsDecision = SettingsDecision.of(getValidIntDecision(1, 4));
 
@@ -52,7 +52,7 @@ public class GameSettings {
         } while (true);
     }
 
-    public static void printChangeSettingsMenu() {
+    static void printChangeSettingsMenu() {
         printlnMessage(CHANGE_SETTINGS_MSG);
         printSettings();
         printlnMessageWithPrefix("4.", CHANGE_SETTINGS_BACK_TO_MENU_MSG);
@@ -75,16 +75,16 @@ public class GameSettings {
     }
 
 
-    public static boolean isEnableHint() {
+    static boolean isEnableHint() {
         return enableHint;
     }
 
 
-    public static int getPointsRequiredToWin() {
+    static int getPointsRequiredToWin() {
         return pointsRequiredToWin;
     }
 
-    public static void setPointsRequiredToWin(int points) {
+    static void setPointsRequiredToWin(int points) {
         pointsRequiredToWin = points;
     }
 

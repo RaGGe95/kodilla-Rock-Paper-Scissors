@@ -5,7 +5,7 @@ import java.util.Map;
 
 import static com.kodilla.rockpaperscissors.language.GameMessenger.*;
 
-public class GameLogic {
+class GameLogic {
     private static final Map<MovePair, Result> gameMap = new HashMap<>();
 
     private GameLogic() {}
@@ -25,7 +25,7 @@ public class GameLogic {
     }
 
 
-    public static Result getResult(MovePair movePair) {
+    static Result getResult(MovePair movePair) {
         return gameMap.get(movePair);
     }
 
@@ -70,7 +70,7 @@ public class GameLogic {
             private final Move playerMove;
             private final Move computerMove;
 
-            public MovePair(Move playerMove, Move computerMove) {
+            MovePair(Move playerMove, Move computerMove) {
                 this.playerMove = playerMove;
                 this.computerMove = computerMove;
             }

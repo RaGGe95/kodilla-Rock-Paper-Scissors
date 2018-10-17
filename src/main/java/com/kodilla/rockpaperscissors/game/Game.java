@@ -37,11 +37,9 @@ public class Game {
         return game;
     }
 
-
     public void run() {
         while(true) {
             printlnMessage(INTRO_MSG);
-            printSettings();
             printGameMenu();
             executeGameMenuDecision();
         }

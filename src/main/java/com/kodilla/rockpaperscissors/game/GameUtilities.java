@@ -6,13 +6,13 @@ import java.util.Scanner;
 import static com.kodilla.rockpaperscissors.language.GameMessenger.*;
 
 
-public class GameUtilities {
+class GameUtilities {
 
     private static final Scanner scanner = new Scanner(System.in);
     private GameUtilities() {}
 
 
-    public static int getValidIntDecision(int bottomRange, int topRange){
+    static int getValidIntDecision(int bottomRange, int topRange){
 
         boolean isDecisionValid = false;
         int decision = 0;
@@ -35,7 +35,7 @@ public class GameUtilities {
     }
 
 
-    public static boolean askToPlayAgain() {
+    static boolean askToPlayAgain() {
         boolean isDecisionValid = false;
         String decision;
 
@@ -55,17 +55,13 @@ public class GameUtilities {
         } while( ! isDecisionValid);
 
         clearConsole();
-        if (decision.equals("y")){
-            return true;
-        } else {
-            return false;
-        }
+        return decision.equals("y");
     }
 
-    public static void clearConsole() { for (int i = 0; i < 50; ++i) System.out.println();}
+    static void clearConsole() { for (int i = 0; i < 50; ++i) System.out.println();}
 
 
-    public static void closeScanner() {
+    static void closeScanner() {
         scanner.close();
     }
 }
